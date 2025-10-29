@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wichtige Mitteilung - Pfennigparade</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+```
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        overflow-x: hidden;
+        background: #f5f5f5;
+    }
+
+    /* Confetti Animation */
+    .confetti {
+        position: fixed;
+        width: 10px;
+        height: 10px;
+        background: #f0f;
+        position: fixed;
+        top: -10px;
+        z-index: 9999;
+        animation: confetti-fall 3s linear infinite;
+    }
+
+    @keyframes confetti-fall {
+        to {
+            transform: translateY(100vh) rotate(360deg);
+            opacity: 0;
+        }
+    }
+
+    /* Scene Container */
+    .scene {
+        display: none;
+        min-height: 100vh;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        animation: fadeIn 0.5s ease-in;
+    }
+
+    .scene.active {
+        display: flex;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    /* Logo - Always visible */
+    .logo-fixed {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        width: 180px;
+        z-index: 1000;
+        animation: slideDown 0.8s ease-out;
+    }
+
+    @keyframes slideDown {
+        from {
+            transform: translateY(-100px);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    /* SCENE 1: Landing Page */
+    #scene1 {
+        background: linear-gradient(135deg, #f5f5f5 0%, #e0f2f1 100%);
+        flex-direction: column;
+    }
+
+    .landing-content {
+        text-align: center;
+        animation: slideUp 1s ease-out;
+    }
+
+    @keyframes slideUp {
+        from {
+            transform: translateY(50px);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    .warning-icon {
+        font-size: 120px;
+        animation: pulse 2s ease-in-out infinite;
+        margin-bottom: 20px;
+    }
+
+    @keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+    }
+
+    .landing-text {
+        font-size: 32px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 10px;
+    }
+
+    .landing-subtext {
+        font-size: 18px;
+        color: #666;
+        margin-bottom: 40px;
+    }
+
+    .btn-warning {
+        background: linear-gradient(135deg, #ff5252 0%, #ff1744 100%);
+        color: white;
+        border: none;
+        padding: 20px 50px;
+        font-size: 24px;
+        font-weight: bold;
+        border-radius: 50px;
+        cursor: pointer;
+        box-shadow: 0 8px 20px rgba(255, 23, 68, 0.4);
+        animation: shake 2s ease-in-out infinite;
+        transition: transform 0.2s;
+    }
+
+    .btn-warning:hover {
+        transform: scale(1.05);
+    }
+
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+        20%, 40%, 60%, 80% { transform: translateX(5px); }
+    }
+
+    /* SCENE 2: Warning Screen */
+    #scene2 {
+        background: linear-gradient(135deg, #b71c1c 0%, #c62828 100%);
+        background-image: 
+            repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255, 255, 0, .1) 35px, rgba(255, 255, 0, .1) 70px);
+    }
+
+    .warning-box {
+        background: #1a1a1a;
+        border: 4px solid #ffeb3b;
+        border-radius: 10px;
+        padding: 40px;
+        max-width: 600px;
+        color: #fff;
+        box-shadow: 0 0 50px rgba(255, 235, 59, 0.5);
+        animation: blink 1.5s ease-in-out infinite, scaleIn 0.5s ease-out;
+    }
+
+    @keyframes blink {
+        0%, 100% { border-color: #ffeb3b; box-shadow: 0 0 50px rgba(255, 235, 59, 0.5); }
+        50% { border-color: #ff5252; box-shadow: 0 0 50px rgba(255, 82, 82, 0.8); }
+    }
+
+    @keyframes scaleIn {
+        from { transform: scale(0); }
+        to { transform: scale(1); }
+    }
+
+    .warning-header {
+        text-align: center;
+        border-bottom: 2px solid #ffeb3b;
+        padding-bottom: 20px;
+        margin-bottom: 30px;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .warning-content {
+        font-size: 20px;
+        line-height: 2;
+        font-family: 'Courier New', monospace;
+    }
+
+    .warning-content div {
+        margin: 15px 0;
+    }
+
+    .warning-label {
+        color: #ffeb3b;
+        font-weight: bold;
+    }
+
+    .btn-accept {
+        background: #ffeb3b;
+        color: #1a1a1a;
+        border: none;
+        padding: 15px 40px;
+        font-size: 18px;
+        font-weight: bold;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 30px;
+        width: 100%;
+        transition: all 0.3s;
+    }
+
+    .btn-accept:hover {
+        background: #fdd835;
+        transform: scale(1.05);
+    }
+
+    /* SCENE 3: Loading Terminal */
+    #scene3 {
+        background: #0a0a0a;
+    }
+
+    .terminal {
+        background: #1a1a1a;
+        border: 2px solid #00ff00;
+        border-radius: 5px;
+        padding: 30px;
+        max-width: 800px;
+        width: 100%;
+        font-family: 'Courier New', monospace;
+        color: #00ff00;
+        box-shadow: 0 0 30px rgba(0, 255, 0, 0.3);
+    }
+
+    .terminal-line {
+        margin: 10px 0;
+        opacity: 0;
+        animation: typingFade 0.5s ease-out forwards;
+    }
+
+    @keyframes typingFade {
+        to { opacity: 1; }
+    }
+
+    .loading-bar {
+        display: flex;
+        align-items: center;
+        margin: 15px 0;
+        font-size: 14px;
+    }
+
+    .bar-container {
+        width: 300px;
+        height: 20px;
+        background: #333;
+        margin: 0 10px;
+        border: 1px solid #00ff00;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .bar-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #00ff00, #00cc00);
+        transition: width 1s ease-out;
+        width: 0;
+    }
+
+    .bar-fill.error {
+        background: linear-gradient(90deg, #ff0000, #cc0000);
+    }
+
+    .status-icon {
+        margin-left: 10px;
+    }
+
+    .btn-enter {
+        background: #00ff00;
+        color: #000;
+        border: none;
+        padding: 15px 40px;
+        font-size: 18px;
+        font-weight: bold;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 30px;
+        font-family: 'Courier New', monospace;
+        display: none;
+        transition: all 0.3s;
+    }
+
+    .btn-enter:hover {
+        background: #00cc00;
+        transform: scale(1.05);
+    }
+
+    /* SCENE 4: Flip Cards */
+    #scene4 {
+        background: linear-gradient(135deg, #4fc3f7 0%, #29b6f6 20%, #81c784 40%, #aed581 60%, #ffb74d 80%, #ff8a65 100%);
+        flex-direction: column;
+        padding: 40px 20px;
+    }
+
+    .cards-header {
+        text-align: center;
+        color: white;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        margin-bottom: 40px;
+        animation: slideDown 0.8s ease-out;
+    }
+
+    .cards-header h1 {
+        font-size: 48px;
+        margin-bottom: 10px;
+    }
+
+    .cards-header p {
+        font-size: 24px;
+    }
+
+    .cards-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        max-width: 1200px;
+        width: 100%;
+        margin-bottom: 40px;
+    }
+
+    .flip-card {
+        background-color: transparent;
+        perspective: 1000px;
+        height: 250px;
+        animation: slideUp 0.8s ease-out;
+    }
+
+    .flip-card:nth-child(1) { animation-delay: 0.1s; }
+    .flip-card:nth-child(2) { animation-delay: 0.2s; }
+    .flip-card:nth-child(3) { animation-delay: 0.3s; }
+    .flip-card:nth-child(4) { animation-delay: 0.4s; }
+    .flip-card:nth-child(5) { animation-delay: 0.5s; }
+    .flip-card:nth-child(6) { animation-delay: 0.6s; }
+
+    .flip-card-inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        transition: transform 0.6s;
+        transform-style: preserve-3d;
+        cursor: pointer;
+    }
+
+    .flip-card:hover .flip-card-inner,
+    .flip-card.flipped .flip-card-inner {
+        transform: rotateY(180deg);
+    }
+
+    .flip-card-front, .flip-card-back {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden;
+        border-radius: 15px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+
+    .flip-card-front {
+        background: white;
+        color: #333;
+    }
+
+    .flip-card-back {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        transform: rotateY(180deg);
+    }
+
+    .card-icon {
+        font-size: 64px;
+        margin-bottom: 15px;
+    }
+
+    .card-title {
+        font-size: 22px;
+        font-weight: bold;
+    }
+
+    .card-text {
+        font-size: 16px;
+        line-height: 1.6;
+    }
+
+    /* Card Colors */
+    .flip-card:nth-child(1) .flip-card-front { border: 4px solid #ff6b6b; }
+    .flip-card:nth-child(2) .flip-card-front { border: 4px solid #4ecdc4; }
+    .flip-card:nth-child(3) .flip-card-front { border: 4px solid #ffe66d; }
+    .flip-card:nth-child(4) .flip-card-front { border: 4px solid #a8e6cf; }
+    .flip-card:nth-child(5) .flip-card-front { border: 4px solid #ff8b94; }
+    .flip-card:nth-child(6) .flip-card-front { border: 4px solid #c7ceea; }
+
+    /* SCENE 5: Final Message */
+    .final-message {
+        background: white;
+        border: 4px solid #008B8B;
+        border-radius: 15px;
+        padding: 40px;
+        max-width: 700px;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        animation: slideUp 1s ease-out;
+        animation-delay: 0.8s;
+        opacity: 0;
+        animation-fill-mode: forwards;
+    }
+
+    .final-message h2 {
+        color: #008B8B;
+        font-size: 32px;
+        margin-bottom: 20px;
+    }
+
+    .final-message p {
+        font-size: 18px;
+        line-height: 1.8;
+        color: #333;
+        margin-bottom: 15px;
+    }
+
+    .final-signature {
+        font-style: italic;
+        margin-top: 30px;
+        font-size: 20px;
+        color: #008B8B;
+    }
+
+    .btn-restart {
+        background: #008B8B;
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        font-size: 16px;
+        border-radius: 25px;
+        cursor: pointer;
+        margin-top: 20px;
+        transition: all 0.3s;
+    }
+
+    .btn-restart:hover {
+        background: #006666;
+        transform: scale(1.05);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .logo-fixed { width: 120px; top: 10px; left: 10px; }
+        .landing-text { font-size: 24px; }
+        .btn-warning { padding: 15px 30px; font-size: 18px; }
+        .warning-box { padding: 20px; }
+        .warning-header { font-size: 20px; }
+        .warning-content { font-size: 16px; }
+        .cards-header h1 { font-size: 32px; }
+        .cards-header p { font-size: 18px; }
+        .cards-container { grid-template-columns: 1fr; }
+        .terminal { padding: 15px; font-size: 12px; }
+        .bar-container { width: 150px; }
+    }
+
+    /* Particles Background */
+    .particles {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    .particle {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background: rgba(255, 255, 255, 0.5);
+        border-radius: 50%;
+        animation: float 20s infinite;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0) translateX(0); }
+        25% { transform: translateY(-100px) translateX(100px); }
+        50% { transform: translateY(-200px) translateX(-100px); }
+        75% { transform: translateY(-100px) translateX(50px); }
+    }
+</style>
+```
+
+</head>
+<body>
+    <!-- Fixed Logo -->
+    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 60'%3E%3Ctext x='10' y='40' font-family='Arial' font-size='24' fill='%23008B8B' font-weight='bold'%3EPfennigparade%3C/text%3E%3C/svg%3E" alt="Pfennigparade Logo" class="logo-fixed">
+
+```
+<!-- SCENE 1: Landing Page -->
+<div id="scene1" class="scene active">
+    <div class="landing-content">
+        <div class="warning-icon">⚠️</div>
+        <div class="landing-text">WICHTIGE MITTEILUNG</div>
+        <div class="landing-subtext">Für das gesamte Team</div>
+        <button class="btn-warning" onclick="goToScene(2)">⚠️ WARNUNG ÖFFNEN</button>
+    </div>
+</div>
+
+<!-- SCENE 2: Warning Screen -->
+<div id="scene2" class="scene">
+    <div class="warning-box">
+        <div class="warning-header">
+            ⚠️ SYSTEM-WARNUNG ⚠️
+        </div>
+        <div class="warning-content">
+            <div><span class="warning-label">ACHTUNG!</span></div>
+            <div><span class="warning-label">Ab 03.11.2025 um 13:42 Uhr</span></div>
+            <div>&nbsp;</div>
+            <div>Neues Teammitglied detektiert!</div>
+            <div>&nbsp;</div>
+            <div><span class="warning-label">Name:</span> MEHRAD</div>
+            <div><span class="warning-label">Status:</span> HYPERAKTIV</div>
+            <div><span class="warning-label">Humor-Level:</span> MAXIMUM</div>
+            <div><span class="warning-label">Pause-Bedarf:</span> KRITISCH</div>
+        </div>
+        <button class="btn-accept" onclick="goToScene(3)">Warnung akzeptieren</button>
+    </div>
+</div>
+
+<!-- SCENE 3: Loading Terminal -->
+<div id="scene3" class="scene">
+    <div class="terminal">
+        <div class="terminal-line">&gt; Initialisierung neuer Mitarbeiter...</div>
+        <div class="terminal-line">&gt; Bitte warten...</div>
+        <div class="terminal-line">&nbsp;</div>
+        <div id="loadingBars"></div>
+        <div class="terminal-line" style="display:none;" id="completeMsg">&gt; Installation abgeschlossen!</div>
+        <div class="terminal-line" style="display:none;" id="pressKey">&gt; Drücke beliebige Taste zum Fortfahren...</div>
+        <button class="btn-enter" id="btnEnter" onclick="goToScene(4)">ENTER drücken →</button>
+    </div>
+</div>
+
+<!-- SCENE 4: Flip Cards + Final Message -->
+<div id="scene4" class="scene">
+    <div class="particles" id="particles"></div>
+    
+    <div class="cards-header">
+        <h1>🎉 Willkommen im Team, Mehrad! 🎉</h1>
+        <p>Start: 03.11.2025 - 13:42 Uhr</p>
+    </div>
+
+    <div class="cards-container">
+        <!-- Card 1 -->
+        <div class="flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <div class="card-icon">😄</div>
+                    <div class="card-title">Humor ist mein zweiter Name</div>
+                </div>
+                <div class="flip-card-back">
+                    <div class="card-text">Ich liebe es, Kollegen zu necken und Spaß zu haben. Das Leben ist zu kurz für Langeweile! Aber keine Sorge, alles mit viel Herz! ❤️</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <div class="card-icon">☕</div>
+                    <div class="card-title">Pause? Ja bitte!</div>
+                </div>
+                <div class="flip-card-back">
+                    <div class="card-text">Pausen sind heilig! Ich brauche sie, um meine Batterien aufzuladen. Kaffee und kurze Verschnaufpausen sind meine Superkraft! 💪</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <div class="card-icon">⚡</div>
+                    <div class="card-title">Stillsitzen? Nicht mit mir!</div>
+                </div>
+                <div class="flip-card-back">
+                    <div class="card-text">Ich bin ständig in Bewegung! Lange am gleichen Ort sitzen ist nicht mein Ding. Aber genau das macht mich produktiv! 🚀</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <div class="card-icon">🎯</div>
+                    <div class="card-title">Konzentration Level: 9000</div>
+                </div>
+                <div class="flip-card-back">
+                    <div class="card-text">Wenn ich mich auf etwas fokussiere, bin ich voll dabei! Aber... manchmal vergesse ich dabei alles um mich herum. Sorry im Voraus! 😅</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 5 -->
+        <div class="flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <div class="card-icon">❤️</div>
+                    <div class="card-title">Teamgeist 100%</div>
+                </div>
+                <div class="flip-card-back">
+                    <div class="card-text">Ich akzeptiere jeden so wie er ist! Jede Persönlichkeit ist wertvoll. Trotz meiner Streiche: Ihr seid mir wichtig! 🤗</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 6 -->
+        <div class="flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <div class="card-icon">💬</div>
+                    <div class="card-title">Feedback erwünscht!</div>
+                </div>
+                <div class="flip-card-back">
+                    <div class="card-text">Sagt mir direkt, wenn etwas nicht passt! Ich lerne durch Wiederholung. Ihr dürft auch laut werden - ich kann damit umgehen! Ehrlichkeit ist mir wichtig! 🗣️</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Final Message -->
+    <div class="final-message">
+        <h2>🌟 Lass uns zusammenarbeiten! 🌟</h2>
+        <p>Ich freue mich auf unsere gemeinsame Zeit! Ja, ich bin ein bisschen chaotisch, manchmal nervig, und brauche viele Pausen... ABER ich gebe mein Bestes und bringe gute Laune mit! 😊</p>
+        <p><strong>Gemeinsam schaffen wir das! 💪</strong></p>
+        <div class="final-signature">
+            <p>- Mehrad</p>
+            <p>(Der aktivste Pflegefachassistent Deutschlands 😎)</p>
+        </div>
+        <button class="btn-restart" onclick="goToScene(1)">🔄 Nochmal von vorne</button>
+    </div>
+</div>
+
+<script>
+    // Scene Management
+    function goToScene(sceneNumber) {
+        document.querySelectorAll('.scene').forEach(scene => {
+            scene.classList.remove('active');
+        });
+        
+        const targetScene = document.getElementById('scene' + sceneNumber);
+        targetScene.classList.add('active');
+
+        if (sceneNumber === 3) {
+            setTimeout(startLoading, 500);
+        }
+
+        if (sceneNumber === 4) {
+            setTimeout(createConfetti, 500);
+            setTimeout(createParticles, 500);
+        }
+    }
+
+    // Loading Animation
+    function startLoading() {
+        const loadingBars = document.getElementById('loadingBars');
+        const bars = [
+            { text: 'Humor-Modul installiert', percent: 100, error: false },
+            { text: 'Scherz-Generator aktiviert', percent: 100, error: false },
+            { text: 'Pause-Enthusiasmus geladen', percent: 100, error: false },
+            { text: 'Hyperaktivität kalibriert', percent: 100, error: false },
+            { text: 'Konzentration... lädt noch...', percent: 65, error: false },
+            { text: 'Sitzfleisch... ERROR!', percent: 15, error: true },
+            { text: 'Freundlichkeit maximiert', percent: 100, error: false },
+            { text: 'Teamgeist aktiviert', percent: 100, error: false }
+        ];
+
+        let delay = 0;
+        bars.forEach((bar, index) => {
+            setTimeout(() => {
+                const barDiv = document.createElement('div');
+                barDiv.className = 'loading-bar terminal-line';
+                barDiv.style.animationDelay = '0s';
+                barDiv.innerHTML = `
+                    <div class="bar-container">
+                        <div class="bar-fill ${bar.error ? 'error' : ''}" id="bar${index}"></div>
+                    </div>
+                    <span>${bar.percent}%</span>
+                    <span class="status-icon">${bar.error ? '⚠️' : '✓'}</span>
+                    <span> - ${bar.text}</span>
+                `;
+                loadingBars.appendChild(barDiv);
+
+                setTimeout(() => {
+                    document.getElementById('bar' + index).style.width = bar.percent + '%';
+                }, 100);
+
+                if (index === bars.length - 1) {
+                    setTimeout(() => {
+                        document.getElementById('completeMsg').style.display = 'block';
+                        document.getElementById('pressKey').style.display = 'block';
+                        document.getElementById('btnEnter').style.display = 'block';
+                    }, 1000);
+                }
+            }, delay);
+            delay += 600;
+        });
+    }
+
+    // Confetti Effect
+    function createConfetti() {
+        const colors = ['#ff6b6b', '#4ecdc4', '#ffe66d', '#a8e6cf', '#ff8b94', '#c7ceea'];
+        for (let i = 0; i < 50; i++) {
+            setTimeout(() => {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                confetti.style.animationDelay = Math.random() * 2 + 's';
+                document.body.appendChild(confetti);
+
+                setTimeout(() => confetti.remove(), 5000);
+            }, i * 50);
+        }
+    }
+
+    // Floating Particles
+    function createParticles() {
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 20; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 10 + 's';
+            particlesContainer.appendChild(particle);
+        }
+    }
+
+    // Mobile flip card support
+    if ('ontouchstart' in window) {
+        document.querySelectorAll('.flip-card').forEach(card => {
+            card.addEventListener('click', function() {
+                this.classList.toggle('flipped');
+            });
+        });
+    }
+</script>
+```
+
+</body>
+</html>
