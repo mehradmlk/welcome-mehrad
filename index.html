@@ -322,6 +322,23 @@
         font-size: 24px;
     }
 
+    .cards-instruction {
+        font-size: 20px !important;
+        margin-top: 20px;
+        background: rgba(255, 255, 255, 0.9);
+        padding: 15px 30px;
+        border-radius: 30px;
+        display: inline-block;
+        color: #333;
+        font-weight: bold;
+        animation: bounce 2s ease-in-out infinite;
+    }
+
+    @keyframes bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+    }
+
     .cards-container {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -355,7 +372,6 @@
         cursor: pointer;
     }
 
-    .flip-card:hover .flip-card-inner,
     .flip-card.flipped .flip-card-inner {
         transform: rotateY(180deg);
     }
@@ -393,6 +409,14 @@
     .card-title {
         font-size: 22px;
         font-weight: bold;
+    }
+
+    .flip-icon {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 24px;
+        opacity: 0.6;
     }
 
     .card-text {
@@ -561,6 +585,7 @@
     <div class="cards-header">
         <h1>🎉 Willkommen im Team, Mehrad! 🎉</h1>
         <p>Start: 03.11.2025 - 13:42 Uhr</p>
+        <p class="cards-instruction">💡 Tipp: Klicke/Tippe auf die Karten, um mehr zu erfahren!</p>
     </div>
 
     <div class="cards-container">
@@ -568,6 +593,7 @@
         <div class="flip-card">
             <div class="flip-card-inner">
                 <div class="flip-card-front">
+                    <div class="flip-icon">↻</div>
                     <div class="card-icon">😄</div>
                     <div class="card-title">Humor ist mein zweiter Name</div>
                 </div>
@@ -581,6 +607,7 @@
         <div class="flip-card">
             <div class="flip-card-inner">
                 <div class="flip-card-front">
+                    <div class="flip-icon">↻</div>
                     <div class="card-icon">☕</div>
                     <div class="card-title">Pause? Ja bitte!</div>
                 </div>
@@ -594,6 +621,7 @@
         <div class="flip-card">
             <div class="flip-card-inner">
                 <div class="flip-card-front">
+                    <div class="flip-icon">↻</div>
                     <div class="card-icon">⚡</div>
                     <div class="card-title">Stillsitzen? Nicht mit mir!</div>
                 </div>
@@ -607,6 +635,7 @@
         <div class="flip-card">
             <div class="flip-card-inner">
                 <div class="flip-card-front">
+                    <div class="flip-icon">↻</div>
                     <div class="card-icon">🎯</div>
                     <div class="card-title">Konzentration Level: 9000</div>
                 </div>
@@ -620,6 +649,7 @@
         <div class="flip-card">
             <div class="flip-card-inner">
                 <div class="flip-card-front">
+                    <div class="flip-icon">↻</div>
                     <div class="card-icon">❤️</div>
                     <div class="card-title">Teamgeist 100%</div>
                 </div>
@@ -633,6 +663,7 @@
         <div class="flip-card">
             <div class="flip-card-inner">
                 <div class="flip-card-front">
+                    <div class="flip-icon">↻</div>
                     <div class="card-icon">💬</div>
                     <div class="card-title">Feedback erwünscht!</div>
                 </div>
@@ -673,6 +704,7 @@
         if (sceneNumber === 4) {
             setTimeout(createConfetti, 500);
             setTimeout(createParticles, 500);
+            setTimeout(demoFirstCard, 2000); // Demo after 2 seconds
         }
     }
 
@@ -753,14 +785,37 @@
         }
     }
 
-    // Mobile flip card support
-    if ('ontouchstart' in window) {
-        document.querySelectorAll('.flip-card').forEach(card => {
-            card.addEventListener('click', function() {
-                this.classList.toggle('flipped');
-            });
-        });
+    // Demo: Auto-flip first card to show users how it works
+    function demoFirstCard() {
+        const firstCard = document.querySelector('.flip-card');
+        if (firstCard) {
+            // Flip it
+            firstCard.classList.add('flipped');
+            
+            // Flip it back after 3 seconds
+            setTimeout(() => {
+                firstCard.classList.remove('flipped');
+            }, 3000);
+        }
     }
+
+    // Flip card interaction - close others when opening one
+    document.querySelectorAll('.flip-card').forEach(card => {
+        card.addEventListener('click', function() {
+            // If this card is already flipped, just toggle it
+            const isCurrentlyFlipped = this.classList.contains('flipped');
+            
+            // Close all cards first
+            document.querySelectorAll('.flip-card').forEach(c => {
+                c.classList.remove('flipped');
+            });
+            
+            // If it wasn't flipped before, flip it now
+            if (!isCurrentlyFlipped) {
+                this.classList.add('flipped');
+            }
+        });
+    });
 </script>
 ```
 
